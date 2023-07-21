@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<title>Go Board</title>
+	</head>
+	<script>
+		function checkStoneRange (x, interval) {
+			return x >= interval && x <= interval * 19;
+		}
+		function init() {
+  			const canvas = document.getElementById("goboard");
+  			if (canvas.getContext) {
+    			const ctx = canvas.getContext("2d");
+				var canvasHeight = canvas.height;
+				var intervalHeight = canvasHeight / 20;
+				var canvasWidth = canvas.width;
+				var intervalWidth = canvasWidth / 20;
+				ctx.strokeStyle = 'Gainsboro';
+				ctx.beginPath();
+				// Draw board
+				for (let i = intervalHeight; i < canvas.height; i = i + intervalHeight) {
+					ctx.moveTo(intervalWidth, i);
+					ctx.lineTo(canvasWidth - intervalWidth, i);
+				}
+				for (let j = intervalWidth; j < canvas.width; j = j + intervalWidth) {
+					ctx.moveTo(j, intervalHeight);
+					ctx.lineTo(j, canvasHeight - intervalHeight);
+				}
+				// Draw stars
+				for (let i = 4; i < 19; i = i + 6) {
+					for (let j = 4; j < 19; j = j + 6) {
+						starX = intervalWidth * i;
+						starY = intervalHeight * j;
+						ctx.moveTo(starX, starY);
+						ctx.arc(starX, starY, 2, 0, 2 * Math.PI);
+					}
+				}
+				ctx.fillStyle = "Gainsboro";
+				ctx.fill();
+				ctx.stroke();
+
+				let myColor = 1;
+				canvas.addEventListener("click", function (event) {
+//console.log('click');
+//console.log(event);
+					var canvasX = Math.round( (event.pageX - 8) / intervalWidth) * intervalWidth;
+					var canvasY = Math.round( (event.pageY - 8) / intervalHeight) * intervalHeight;
+					let currentColor = myColor;
+					if ( checkStoneRange(canvasX, intervalWidth) && checkStoneRange(canvasY, intervalHeight)) {
+						if (currentColor > 0) {
+							ctx.fillStyle = "LightSlateGray";
+							ctx.strokeStyle = "Gainsboro";
+						} else {
+							ctx.fillStyle = "MintCream";
+							ctx.strokeStyle = "Gainsboro";
+						}
+						//ctx.moveTo(canvasX, canvasY);
+						ctx.beginPath();
+						ctx.arc(canvasX, canvasY, intervalWidth / 2 - 1, 0, 2 * Math.PI);
+						ctx.fill();
+						ctx.stroke();
+						myColor = 0 - currentColor;						
+					}
+				});
+
+				canvas.addEventListener(
+					"dblclick", function (event) {
+//console.log('dblclick');
+//console.log(event);
+						var canvasX = Math.round( (event.pageX - 8) / intervalWidth) * intervalWidth;
+						var canvasY = Math.round( (event.pageY - 8) / intervalHeight) * intervalHeight;	
+						if ( checkStoneRange(canvasX, intervalWidth) && checkStoneRange(canvasY, intervalHeight))	{
+							ctx.fillStyle = "White";
+							ctx.strokeStyle = "White";
+							//ctx.moveTo(canvasX, canvasY);
+							ctx.beginPath();
+							ctx.arc(canvasX, canvasY, intervalWidth / 2 - 1, 0, 2 * Math.PI);
+							ctx.fill();
+							ctx.stroke();
+							ctx.closePath();
+							ctx.beginPath();
+							ctx.strokeStyle = "Gainsboro";
+							ctx.moveTo(canvasX - intervalWidth / 2, canvasY);
+							ctx.lineTo(canvasX + intervalWidth / 2, canvasY);
+							ctx.moveTo(canvasX, canvasY - intervalHeight / 2);
+							ctx.lineTo(canvasX, canvasY + intervalHeight / 2);
+							//ctx.fill();
+							ctx.stroke();
+						}				
+					}
+				);
+
+			}
+		}
+	</script>
+	<body onload="init();">
+		<canvas id="goboard" width="460" height="500" style="border:1px solid white;">
+		</canvas>
+
+	</body>
+</html> 
