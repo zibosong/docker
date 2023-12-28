@@ -9,13 +9,17 @@
 		}
 		function init() {
   			const canvas = document.getElementById("goboard");
+			const boardLineColor = "Black";
+
+			// Draw the board
   			if (canvas.getContext) {
     			const ctx = canvas.getContext("2d");
 				var canvasHeight = canvas.height;
 				var intervalHeight = canvasHeight / 20;
 				var canvasWidth = canvas.width;
 				var intervalWidth = canvasWidth / 20;
-				ctx.strokeStyle = 'Gainsboro';
+				//ctx.strokeStyle = 'Gainsboro';
+				ctx.strokeStyle = boardLineColor;
 				ctx.beginPath();
 				// Draw board
 				for (let i = intervalHeight; i < canvas.height; i = i + intervalHeight) {
@@ -35,31 +39,41 @@
 						ctx.arc(starX, starY, 2, 0, 2 * Math.PI);
 					}
 				}
-				ctx.fillStyle = "Gainsboro";
+				ctx.fillStyle = boardLineColor;
 				ctx.fill();
 				ctx.stroke();
 
+				// starting stone color: 1 = black, 0 = white
 				let myColor = 1;
+				// Define stone color
+				const blackStoneOut = "Gainsboro";
+				const blackStoneIn = "LightSalteGray";
+				const whiteStoneOut = "Gainboro";
+				const whiteStoneIn = "MintCream";
+				// Draw stone by click
 				canvas.addEventListener("click", function (event) {
-//console.log('click');
-//console.log(event);
+					//console.log('click');
+					//console.log(event);
+					//Get stone position
 					var canvasX = Math.round( (event.pageX - 8) / intervalWidth) * intervalWidth;
 					var canvasY = Math.round( (event.pageY - 8) / intervalHeight) * intervalHeight;
 					let currentColor = myColor;
 					if ( checkStoneRange(canvasX, intervalWidth) && checkStoneRange(canvasY, intervalHeight)) {
 						if (currentColor > 0) {
-							ctx.fillStyle = "LightSlateGray";
-							ctx.strokeStyle = "Gainsboro";
+							ctx.fillStyle = blackStoneIn;
+							ctx.strokeStyle = blackStoneOut;
 						} else {
-							ctx.fillStyle = "MintCream";
-							ctx.strokeStyle = "Gainsboro";
+							ctx.fillStyle = whiteStoneIn;
+							ctx.strokeStyle = whiteStoneOut;
 						}
 						//ctx.moveTo(canvasX, canvasY);
+						console.log(ctx.fillStyle);
 						ctx.beginPath();
 						ctx.arc(canvasX, canvasY, intervalWidth / 2 - 1, 0, 2 * Math.PI);
 						ctx.fill();
 						ctx.stroke();
-						myColor = 0 - currentColor;						
+						myColor = 0 - currentColor;
+						console.log(currentColor);		
 					}
 				});
 
@@ -94,7 +108,7 @@
 		}
 	</script>
 	<body onload="init();">
-		<canvas id="goboard" width="460" height="500" style="border:1px solid white;">
+		<canvas id="goboard" width="460" height="500" style="border:1px solid brown;">
 		</canvas>
 
 	</body>
