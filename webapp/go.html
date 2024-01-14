@@ -47,9 +47,9 @@
 				let myColor = 1;
 				// Define stone color
 				const blackStoneOut = "Gainsboro";
-				const blackStoneIn = "LightSalteGray";
+				const blackStoneFill = "Black";
 				const whiteStoneOut = "Gainboro";
-				const whiteStoneIn = "MintCream";
+				const whiteStoneFill = "White";
 				// Draw stone by click
 				canvas.addEventListener("click", function (event) {
 					//console.log('click');
@@ -60,10 +60,10 @@
 					let currentColor = myColor;
 					if ( checkStoneRange(canvasX, intervalWidth) && checkStoneRange(canvasY, intervalHeight)) {
 						if (currentColor > 0) {
-							ctx.fillStyle = blackStoneIn;
+							ctx.fillStyle = blackStoneFill;
 							ctx.strokeStyle = blackStoneOut;
 						} else {
-							ctx.fillStyle = whiteStoneIn;
+							ctx.fillStyle = whiteStoneFill;
 							ctx.strokeStyle = whiteStoneOut;
 						}
 						//ctx.moveTo(canvasX, canvasY);
